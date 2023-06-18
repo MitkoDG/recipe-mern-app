@@ -12,6 +12,13 @@ app.use(cors());
 
 app.use("/auth", userRouter);
 
-mongoose.connect("mongodb+srv://appadmin:mernPassword123@recipe.s2rgwjc.mongodb.net/recipe?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://appadmin:mernPassword123@recipe.s2rgwjc.mongodb.net/recipe?retryWrites=true&w=majority").then(
+    () => {
+        console.log("Connection established");
+    },
+    err => {
+        console.log("Error connecting to server: " + err);
+    }
+)
 
 app.listen(3001, () => console.log('listening on port 3001 -> http://localhost:3001'));
