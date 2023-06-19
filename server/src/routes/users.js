@@ -36,7 +36,11 @@ router.post("/login", async (req, res) => {
         return res.json({ message: "User or Password is Incorrect!" });
     }
 
-    const token = jwt.sign({ id: user._id}, "secret");
+    const options = {
+        expiresIn: '1h' // Token expiration time
+    };
+    
+    const token = jwt.sign({ id: user._id }, "secret", options);
     res.json({ token, userID: user._id });
 
 });
