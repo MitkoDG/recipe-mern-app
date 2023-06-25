@@ -1,20 +1,23 @@
 import { NavLink } from "react-router-dom";
 
-export const Navbar = () => {
+export const Navbar = ({ children }) => {
   return (
-    <div className="navbar">
-      <NavLink exact="true" to="/" activeclassname="active">
-        Home
-      </NavLink>
-      <NavLink to="/create-recipe" activeclassname="active">
-        Create Recipe
-      </NavLink>
-      <NavLink to="/saved-recipe" activeclassname="active">
-        Saved Recipe
-      </NavLink>
-      <NavLink to="/auth" activeclassname="active">
-        Login/Register
-      </NavLink>
+    <div>
+      <nav className="navbar">
+        <NavLink exact="true" to="/" activeClassname="active">
+          Home
+        </NavLink>
+        <NavLink to="/create-recipe" activeClassname="active">
+          Create Recipe
+        </NavLink>
+        <NavLink to="/saved-recipe" activeClassname="active">
+          Saved Recipe
+        </NavLink>
+        <NavLink to="/auth" activeClassname="active">
+          Login / Register
+        </NavLink>
+      </nav>
+      {children}
     </div>
   );
 };
