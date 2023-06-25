@@ -4,16 +4,16 @@ export const Navbar = ({ children }) => {
   return (
     <div>
       <nav className="navbar">
-        <NavLink exact="true" to="/" activeClassname="active">
+        <NavLink exact="true" to="/" activelassname="active">
           Home
         </NavLink>
-        <NavLink to="/create-recipe" activeClassname="active">
+        <NavLink to="/create-recipe" activelassname="active">
           Create Recipe
         </NavLink>
-        <NavLink to="/saved-recipe" activeClassname="active">
+        <NavLink to="/saved-recipe" activelassname="active">
           Saved Recipe
         </NavLink>
-        <NavLink to="/auth" activeClassname="active">
+        <NavLink to="/auth" activelassname="active">
           Login / Register
         </NavLink>
       </nav>
