@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const Auth = () => {
   return (
@@ -14,11 +16,26 @@ export const Auth = () => {
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+  const navigate = useNavigate();
+  console.log(cookies);
   const onSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:3001/auth/login", {
+        username,
+        password,
+      });
+      console.log(response);
+      setCookie("access_token", response.data.token);
+      window.localStorage.setItem("userID", response.data.userID);
+      navigate("/");
 
-    
+      setUsername("");
+      setPassword("");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -41,10 +58,13 @@ const Regster = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3001/auth/register", { username, password });
+      await axios.post("http://localhost:3001/auth/register", {
+        username,
+        password,
+      });
       setUsername("");
       setPassword("");
-      alert("Success. Now you can login")
+      alert("Success. Now you can login");
     } catch (err) {
       console.error(err);
     }
@@ -62,7 +82,14 @@ const Regster = () => {
   );
 };
 
-const Form = ({ username, setUsername, password, setPassword, label, onSubmit }) => {
+const Form = ({
+  username,
+  setUsername,
+  password,
+  setPassword,
+  label,
+  onSubmit,
+}) => {
   return (
     <div className="auth-container">
       <form onSubmit={onSubmit}>
