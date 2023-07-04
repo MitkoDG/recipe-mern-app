@@ -1,6 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export const Navbar = ({ children }) => {
+  const [cookies, setCookie] = useCookies(["access_token"]);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    setCookie("access_token", "");
+    window.localStorage.removeItem("userID");
+    navigate("/auth");
+  };
+
   return (
     <div>
       <nav className="navbar">
@@ -13,9 +23,13 @@ export const Navbar = ({ children }) => {
         <NavLink to="/saved-recipe" activelassname="active">
           Saved Recipe
         </NavLink>
-        <NavLink to="/auth" activelassname="active">
-          Login / Register
-        </NavLink>
+        {!cookies.access_token ? (
+          <NavLink to="/auth" activelassname="active">
+            Login / Register
+          </NavLink>
+        ) : (
+          <button onClick={logout}> Logout</button>
+        )}
       </nav>
       {children}
     </div>
