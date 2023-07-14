@@ -15,10 +15,21 @@ export const CreateRecipe = () => {
     setRecipe({ ...recipe, [name]: value });
   };
 
+  const handleIngredientChange = (event, idx) => {
+    const { value } = event.target;
+    const ingredients = recipe.ingredients;
+    ingredients[idx] = value;
+    setRecipe({...recipe, ingredients: ingredients}) // or the short notation
+  };
+
+  const addIngredient = () => {
+    setRecipe({ ...recipe, ingredients: [...recipe.ingredients, ""] });
+  };
+
   return (
     <div className="create-recipe">
       <h2>Create Recipe</h2>
-      <form action="POST">
+      <form>
         <label htmlFor="name">Name</label>
         <input type="text" id="name" name="name" onChange={handleChange} />
         <label htmlFor="description">Description</label>
@@ -28,7 +39,16 @@ export const CreateRecipe = () => {
           onChange={handleChange}
         ></textarea>
         <label htmlFor="ingredients">Ingredients</label>
-
+        {recipe.ingredients.map((ingredient, idx) => (
+          <input
+            key={idx}
+            type="text"
+            name="ingredients"
+            value={ingredient}
+            onChange={(event) => handleIngredientChange(event, idx)}
+          />
+        ))}
+        <button onClick={addIngredient} type="button">Add Ingredient</button>
         <label htmlFor="instructions">Instructions</label>
         <textarea
           id="instructions"
@@ -49,6 +69,8 @@ export const CreateRecipe = () => {
           name="cookingTime"
           onChange={handleChange}
         />
+        <button type="submit">Create Recipe</button>
+
       </form>
     </div>
   );
