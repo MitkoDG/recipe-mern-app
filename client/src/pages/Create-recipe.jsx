@@ -1,14 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
+import { userGetUserID } from "../hooks/useGetUserId";
+
 export const CreateRecipe = () => {
+  const userID = userGetUserID();
+
   const [recipe, setRecipe] = useState({
     name: "",
     ingredients: [],
     instructions: "",
     imageUrl: "",
     cookingTime: 0,
-    userOwner: 0,
+    userOwner: userID,
   });
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
