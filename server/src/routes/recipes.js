@@ -1,13 +1,13 @@
 import express from "express";
-
-import { RecipeModel } from "../models/Recipes";
-import { UserModel } from "../models/Users";
+import mongoose from "mongoose";
+import { RecipesModel } from "../models/Recipes.js";
+import { UserModel } from "../models/Users.js";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
-        const reponse = await RecipeModel.find({});
+        const reponse = await RecipesModel.find({});
         res.json(reponse);
     } catch (err) {
         res.json(err);
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const recipe = new RecipeModel(...req.body);
+    const recipe = new RecipesModel(...req.body);
     try {
         const reponse = await recipe.save();
         res.json(recipe);
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
 
 router.put("/", async (req, res) => {
     try {
-        const recipe = await RecipeModel.findById(req.body.recipeID);
+        const recipe = await RecipesModel.findById(req.body.recipeID);
         const user = await UserModel.findById(req.body.userID);
         user.savedRecipes.push(recipe);
         await user.save();
@@ -48,7 +48,7 @@ router.get("/savedRecipes/ids", async (req, res) => {
 router.get("/savedRecipes", async (req, res) => {
     try {
         const user = await UserModel.findById(req.body.userID);
-        const savedRecipes = await RecipeModel.find({
+        const savedRecipes = await RecipesModel.find({
             _id: { $in: user.savedRecipes},
         });
         res.json({ savedRecipes })
